@@ -1,0 +1,2 @@
+# capture
+offline attendance scanner
