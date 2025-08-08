@@ -1,37 +1,36 @@
-Let's finalize the tech stack:
-Frontend:
-HTML
-CSS
-Bootstrap/Bootswatch
-Bootstrap Icons
-Font squirell (for fonts)
-JavaScript
-React
-AnimeJS (for animations)
-Backend:
-Express.js
-Node.js
-Database:
-NeonDB
-Hosting:
-Vercel (with separate deployments for frontend and backend)
-
-color selection for the project (012A4A,013A63,01497C,014F86,2A6F97)
-
-
-Separate deployments will allow you to:
-Optimize each deployment independently.
-Scale frontend and backend separately.
-Use different configurations and settings for each deployment.
-This approach will also make it easier to manage and maintain your application.
-Next steps:
-Set up separate repositories or monorepos for frontend and backend.
-Design the database schema for NeonDB.
-Implement the backend API using Express.js and Node.js.
-Build the frontend using React, AnimeJS, Bootstrap Icons, and Font Awesome.
-Let's start with the backend. We can set up the Express.js project and design the database schema for NeonDB.
-Here's a high-level overview of the backend API:
+Here's the updated project description:
+App Name: Capture
+App Overview: Capture is a web-based attendance tracking application that allows users to clock in and out, view attendance records, and manage user accounts. The application will have offline PWA features, enabling users to access and use the app even without an internet connection.
+File Structure:
+Capture/
+log/ (backend)
+scan/ (frontend)
+Tech Stack:
+Frontend (scan/): HTML, CSS, Bootstrap/Bootswatch, Bootstrap Icons, Font Squirrel (for fonts), JavaScript, React, and AnimeJS (for animations)
+Backend (log/): REST API using Express.js and Node.js
+Database: NeonDB - prisma
+Hosting: Vercel with separate deployments for frontend and backend
+use of jwt - http only cookie
+Color Scheme:
+The application's color scheme will be based on the following colors:
+#012A4A
+#013A63
+#01497C
+#014F86
+#2A6F97
+App Features:
+User authentication and authorization
+Attendance tracking features:
+Clock in/out functionality
+View attendance records
+User management features:
+Create, update, and delete user accounts
+Offline PWA features:
+Enable users to access and use the app offline
+Sync data when internet connection is restored
+Backend API:
+The backend API will have the following endpoints:
 Authentication endpoints (e.g., login, register)
 Attendance tracking endpoints (e.g., clock in/out, view attendance records)
 User management endpoints (e.g., create, update, delete users)
-How would you like to structure the backend API? Should we use a specific routing structure or follow a particular API design pattern?
+Current Focus:

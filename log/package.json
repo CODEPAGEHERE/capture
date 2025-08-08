@@ -1,18 +1,31 @@
 {
   "name": "log",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "log.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node seed.js"
   },
-  "keywords": [Capture , ScanQrcode , Attendance , Clock-in , Clock-out],
+  "keywords": [
+    "Capture",
+    "ScanQrcode",
+    "Attendance",
+    "Clock-in",
+    "Clock-out"
+  ],
   "author": "Happycode Technologies...",
   "license": "ISC",
   "description": "Capture is an attendance management web application designed primarily for school use...",
   "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "pg": "^8.16.3"
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "pg": "^8.16.3",
+    "prisma": "^6.13.0"
   }
 }
