@@ -1,21 +1,18 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+const { PrismaClient } = require('../prisma/generated/client');
+const prisma = new PrismaClient();
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-// Database connection check
-pool.connect((err) => {
-  if (err) {
-    console.error('Error connecting to Capdb database:', err);
+async function connectToDatabase() {
+  try {
+    await prisma.$connect();
+    console.log('Connected to Capdb');
+  } catch (err) {
+    console.error('Error connecting to Capdb:', err);
     process.exit(1);
   }
-  console.log('Connected to Capdb database');
-});
+}
 
-module.exports = pool;
+
+
+connectToDatabase();
+
+module.exports = prisma;

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db/capdb');
+const { generateToken, setAuthCookie, verifyToken, getTokenFromCookie } = require('../util/token');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // Login endpoint
 router.post('/login', async (req, res) => {
@@ -15,14 +14,18 @@ router.post('/login', async (req, res) => {
     }
 
     // Query database for user
-    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    const user = await req.prisma.user.findUnique({
+      where: { username },
+      include: {
+        role: true,
+        roleType: true,
+      },
+    });
 
     // Check if user exists
-    if (result.rows.length === 0) {
+    if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-
-    const user = result.rows[0];
 
     // Compare passwords
     const isValidPassword = await bcrypt.compare(password, user.password);
@@ -31,12 +34,44 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
-      expiresIn: '1h',
-    });
+    // Generate token
+    const token = generateToken(user);
 
-    res.json({ token });
+    let redirectTo;
+    if (user.role.name === 'ADMIN' && user.roleType.name === 'SUPERADMIN') {
+      redirectTo = '/office';
+    } else if (user.role.name === 'ADMIN' && user.roleType.name === 'SUBADMIN') {
+      redirectTo = '/dashboard';
+    } else if (['STAFF', 'TEACHER'].includes(user.role.name)) {
+      redirectTo = '/assist';
+    } else {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    setAuthCookie(res, token);
+    res.json({ redirectTo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Validate token endpoint
+router.get('/validate-token', async (req, res) => {
+  try {
+    const token = getTokenFromCookie(req);
+
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const decoded = verifyToken(token);
+
+    if (!decoded) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+
+    res.json({ role: decoded.role, roleType: decoded.roleType });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

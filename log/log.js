@@ -3,20 +3,24 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const pool = require('./db/capdb');
 const routes = require('./routes');
+const prisma = require('./db/capdb');
+const limiter = require('./util/ratelimit');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-
-
-
 
 
 // Security middleware
 app.use(helmet());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS,
+  credentials: true,
 }));
+
+
+// Apply rate limiting to all routes
+app.use(limiter);
 
 // Request logging
 app.use(morgan('combined'));
@@ -24,15 +28,18 @@ app.use(morgan('combined'));
 // Request parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
+// Prisma client instance
+app.use((req, res, next) => {
+  req.prisma = prisma;
+  next();
+});
 
 
 
 
 // Routes
-app.use('/api', routes);
-
-
+app.use('/', routes);
 
 
 
@@ -57,6 +64,7 @@ process.on('uncaughtException', (err) => {
   console.error('Uncaught exception:', err);
   process.exit(1);
 });
+
 
 
 
