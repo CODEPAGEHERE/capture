@@ -9,11 +9,11 @@ if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 64) {
   throw new Error('ENCRYPTION_KEY must be a 32-byte hex string');
 }
 
+
 const generateToken = (user) => {
   return jwt.sign({
     userId: user.id,
-    role: user.role.name,
-    roleType: user.roleType.name,
+    role: user.roleUsers[0].role.name,
   }, process.env.SECRET_KEY, {
     expiresIn: '3h',
   });
@@ -58,9 +58,12 @@ const setAuthCookie = (res, token) => {
 const clearAuthCookie = (res) => {
   res.clearCookie(COOKIE_NAME, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     path: '/',
   });
 };
+
 
 const verifyToken = (token) => {
   try {

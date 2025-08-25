@@ -13,28 +13,53 @@ async function main() {
   if (roles.length === 0) {
     await prisma.role.createMany({
       data: [
-        { name: 'ADMIN' },
-        { name: 'STAFF' },
-        { name: 'TEACHER' },
-        { name: 'STUDENT' },
+        { name: 'primary_student' },
+        { name: 'junior_student' },
+        { name: 'senior_student' },
+        { name: 'parent' },
+        { name: 'staff' },
+        { name: 'class_teacher' },
+        { name: 'subject_teacher' },
+        { name: 'min_admin' },
+        { name: 'main_admin' },
+        { name: 'super_admin' },
       ],
     });
   }
 
-  const roleTypes = await prisma.roleType.findMany();
-  if (roleTypes.length === 0) {
-    await prisma.roleType.createMany({
+  const terms = await prisma.term.findMany();
+  if (terms.length === 0) {
+    await prisma.term.createMany({
       data: [
-        { name: 'SUPERADMIN' },
-        { name: 'SUBADMIN' },
-        { name: 'CLASS_TEACHER' },
-        { name: 'SUBJECT_TEACHER' },
+        { name: 'first_term' },
+        { name: 'second_term' },
+        { name: 'third_term' },
       ],
     });
   }
 
-  const adminRole = await prisma.role.findFirst({ where: { name: 'ADMIN' } });
-  const superAdminRoleType = await prisma.roleType.findFirst({ where: { name: 'SUPERADMIN' } });
+  const school = await prisma.school.findFirst({ where: { name: process.env.SCHOOL_NAME } });
+  let schoolId;
+  if (!school) {
+    const newSchool = await prisma.school.create({
+      data: {
+        name: process.env.SCHOOL_NAME,
+        email: process.env.SCHOOL_EMAIL,
+        contactPhone: process.env.SCHOOL_CONTACT_PHONE,
+        address: process.env.SCHOOL_ADDRESS,
+        about: process.env.SCHOOL_ABOUT,
+        motto: process.env.SCHOOL_MOTTO,
+        color: process.env.SCHOOL_COLOR,
+        logo: process.env.SCHOOL_LOGO,
+        tenantId: process.env.SCHOOL_TENANT_ID,
+      },
+    });
+    schoolId = newSchool.id;
+  } else {
+    schoolId = school.id;
+  }
+
+  const superAdminRole = await prisma.role.findFirst({ where: { name: 'super_admin' } });
 
   const hashedPassword = await hashPassword(process.env.ADMIN_PASSWORD);
   const existingUser = await prisma.user.findFirst({ where: { username: process.env.ADMIN_USERNAME } });
@@ -43,28 +68,15 @@ async function main() {
       data: {
         username: process.env.ADMIN_USERNAME,
         password: hashedPassword,
-        firstName: process.env.ADMIN_FIRST_NAME,
-        lastName: process.env.ADMIN_LAST_NAME,
+        fullName: `${process.env.ADMIN_FIRST_NAME} ${process.env.ADMIN_LAST_NAME}`,
         email: process.env.ADMIN_EMAIL,
         phoneNumber: process.env.ADMIN_PHONE_NUMBER,
-        role: { connect: { id: adminRole.id } },
-        roleType: { connect: { id: superAdminRoleType.id } },
-      },
-    });
-  }
-
-  const studentRole = await prisma.role.findFirst({ where: { name: 'STUDENT' } });
-  const existingDefaultUser = await prisma.user.findFirst({ where: { username: 'defaultuser' } });
-  if (!existingDefaultUser) {
-    const defaultUserPassword = await hashPassword('password');
-    await prisma.user.create({
-      data: {
-        username: 'defaultuser',
-        password: defaultUserPassword,
-        firstName: 'Default',
-        lastName: 'User',
-        email: 'default@example.com',
-        role: { connect: { id: studentRole.id } },
+        schoolId: schoolId,
+        roleUsers: {
+          create: {
+            role: { connect: { id: superAdminRole.id } },
+          },
+        },
       },
     });
   }

@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 
+
 // Security middleware
 app.use(helmet());
 app.use(cors({
@@ -18,17 +19,23 @@ app.use(cors({
   credentials: true,
 }));
 
-
 // Apply rate limiting to all routes
 app.use(limiter);
-
-// Request logging
-app.use(morgan('combined'));
 
 // Request parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Request logging
+app.use(morgan('combined'));
+
+
+
+
+
+
+
 // Prisma client instance
 app.use((req, res, next) => {
   req.prisma = prisma;
@@ -38,8 +45,11 @@ app.use((req, res, next) => {
 
 
 
+
 // Routes
 app.use('/', routes);
+
+
 
 
 
@@ -64,6 +74,13 @@ process.on('uncaughtException', (err) => {
   console.error('Uncaught exception:', err);
   process.exit(1);
 });
+
+
+
+
+
+
+
 
 
 

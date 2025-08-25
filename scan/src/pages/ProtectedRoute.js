@@ -5,10 +5,9 @@ import WaitLoader from '../components/WaitLoader';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const ProtectedRoute = ({ children, allowedRoles, allowedRoleTypes }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  const [userRoleType, setUserRoleType] = useState(null);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -18,7 +17,6 @@ const ProtectedRoute = ({ children, allowedRoles, allowedRoleTypes }) => {
         });
         setIsAuthenticated(true);
         setUserRole(response.data.role);
-        setUserRoleType(response.data.roleType);
       } catch {
         setIsAuthenticated(false);
       }
@@ -34,7 +32,7 @@ const ProtectedRoute = ({ children, allowedRoles, allowedRoleTypes }) => {
     return <Navigate to="/unauthorized" />;
   }
 
-  if ((allowedRoles && !allowedRoles.includes(userRole)) || (allowedRoleTypes && !allowedRoleTypes.includes(userRoleType))) {
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
     return <Navigate to="/unauthorized" />;
   }
 

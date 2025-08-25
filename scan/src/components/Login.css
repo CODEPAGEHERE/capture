@@ -3,73 +3,128 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to bottom, #ADD8E6, #013A63);
+  background-image: linear-gradient(to right, #F5F5F5, #ADD8E6);
   font-family: 'Clarika', sans-serif;
   padding: 20px;
 }
 
 .login-form {
   background-color: #fff;
-  padding: 2rem;
-  border-radius: 0.5rem;
+  padding: 4rem 2rem;
+  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px; /* Increased width */
+  max-width: 300px;
   width: 100%;
+  border: 1px solid #ddd;
+  border-top: 5px solid #013A63;
+  position: relative;
+}
+
+.login-logo {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #013A63;
+  padding: 5px;
+  border-radius: 50%;
 }
 
 .login-form h2 {
   color: #012A4A;
-  margin-bottom: 1rem;
-  text-align: left; /* Changed to left */
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-size: 1.7rem;
+  text-transform: none; /* Add this to prevent uppercase */
+  line-height: 1.0; /* Reduce line height to decrease spacing */
+  letter-spacing: normal; /* or a specific value, e.g. -0.5px */
+}
+
+.login-form p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 0.7rem;
 }
 
 .login-input {
   width: 100%;
   padding: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   border: 1px solid #ddd;
-  border-radius: 0.25rem;
+  border-radius: 5px; /* Add border radius */
+}
+
+.login-input:focus {
+  border-color: #013A63px; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(1, 54, 99, 0.5); /* Add box shadow on focus */
 }
 
 .password-input-container {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem; /* Reduced margin bottom */
 }
 
 .password-input-container i {
-  position:  absolute;
-  right: 10px;
-  top: 50%;
+  position: absolute;
+  right: 15px;
+  top: 35%; /* Moved up a bit */
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 1.2rem;
 }
 
+.login-form .reset-password-link {
+  font-size: 0.8rem;
+  text-align: right;
+  margin-bottom: 1.5rem; /* Added margin bottom */
+  margin-top: -15px;
+}
+
+.login-form .reset-password-link a {
+  color: #013A63;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .login-button {
-  background-color: #013A63;
+  background-image: linear-gradient(to right, #013A63, #014C7A);
   color: #fff;
-  padding: 0.2rem 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 5px;
   cursor: pointer;
-  width: 100px;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .login-button:hover {
-  background-color: #01497C;
+  background-image: linear-gradient(to right, #014C7A, #015C8C);
 }
 
-.login-logo {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-  display: block;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 @media (max-width: 768px) {
   .login-form {
     padding: 1rem;
+  }
+
+
+  .login-form h2 {
+    color: #012A4A;
+    margin-top: 4rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    text-transform: none; /* Add this to prevent uppercase */
+    line-height: 1.0; /* Reduce line height to decrease spacing */
+    letter-spacing: normal; /* or a specific value, e.g. -0.5px */
+  }
+
+  .login-form p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 0.7rem;
+    text-align: center;
   }
 }

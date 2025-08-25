@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateToken, setAuthCookie, verifyToken, getTokenFromCookie } = require('../util/token');
+const { generateToken, setAuthCookie, verifyToken, getTokenFromCookie, clearAuthCookie } = require('../util/token');
 const bcrypt = require('bcryptjs');
 
 // Login endpoint
@@ -17,8 +17,11 @@ router.post('/login', async (req, res) => {
     const user = await req.prisma.user.findUnique({
       where: { username },
       include: {
-        role: true,
-        roleType: true,
+        roleUsers: {
+          include: {
+            role: true,
+          },
+        },
       },
     });
 
@@ -38,11 +41,12 @@ router.post('/login', async (req, res) => {
     const token = generateToken(user);
 
     let redirectTo;
-    if (user.role.name === 'ADMIN' && user.roleType.name === 'SUPERADMIN') {
+    const role = user.roleUsers[0].role.name;
+    if (role === 'super_admin') {
       redirectTo = '/office';
-    } else if (user.role.name === 'ADMIN' && user.roleType.name === 'SUBADMIN') {
+    } else if (role === 'main_admin') {
       redirectTo = '/dashboard';
-    } else if (['STAFF', 'TEACHER'].includes(user.role.name)) {
+    } else if (role === 'min_admin') {
       redirectTo = '/assist';
     } else {
       return res.status(403).json({ message: 'Access denied' });
@@ -71,7 +75,21 @@ router.get('/validate-token', async (req, res) => {
       return res.status(403).json({ message: 'Invalid token' });
     }
 
-    res.json({ role: decoded.role, roleType: decoded.roleType });
+    res.json({ role: decoded.role });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+
+// Logout endpoint
+router.post('/logout', async (req, res) => {
+  try {
+    clearAuthCookie(res);
+    res.json({ message: 'Logged out successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

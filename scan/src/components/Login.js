@@ -1,38 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Login.css';
 import logo from './logo.png';
+import WaitLoader from './WaitLoader';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [redirectTo, setRedirectTo] = useState(null);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (redirectTo) {
+      const timer = setTimeout(() => {
+        window.location.href = redirectTo;
+      }, 2000); // Wait for 2 seconds before redirecting
+      return () => clearTimeout(timer);
+    }
+  }, [redirectTo]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-      credentials: 'include', // Include this option
+    setIsLoading(true);
+
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      username,
+      password,
+    }, {
+      withCredentials: true,
     })
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Invalid username or password');
-        }
-      })
-      .then((data) => {
-        // Handle successful login
-        console.log(data);
-        // You can redirect to dashboard here
-        window.location.href = data.redirectTo;
+        setRedirectTo(response.data.redirectTo);
       })
       .catch((error) => {
-        setError(error.message);
+        setIsLoading(false);
+        if (error.response) {
+          setError(error.response.data.message);
+        } else {
+          setError('An error occurred');
+        }
         console.error(error);
       });
   };
@@ -41,11 +49,20 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+  if (isLoading || redirectTo) {
+    return (
+      <div className="login-loader">
+        <WaitLoader />
+      </div>
+    );
+  }
+
   return (
     <div className="login-container">
       <div className="login-form">
         <img src={logo} alt="Logo" className="login-logo" />
-        <h2>Login</h2>
+        <h2>Welcome Back</h2>
+        <p>Please sign into your Capture account</p>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <input
@@ -62,11 +79,15 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="login-input"
+              style={{ paddingRight: '2.5rem' }}
             />
             <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'} onClick={togglePasswordVisibility}></i>
           </div>
+          <div className="reset-password-link">
+            <a href="/reset-password">Reset Password</a>
+          </div>
           <button type="submit" className="login-button">
-            Login
+            Sign In
           </button>
         </form>
       </div>

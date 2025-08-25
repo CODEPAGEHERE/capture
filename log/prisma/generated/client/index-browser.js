@@ -122,25 +122,66 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.RoleScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.RoleTypeScalarFieldEnum = {
+exports.Prisma.RoleUserScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  roleId: 'roleId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SchoolScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  contactPhone: 'contactPhone',
+  address: 'address',
+  about: 'about',
+  motto: 'motto',
+  color: 'color',
+  logo: 'logo',
+  tenantId: 'tenantId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  fullName: 'fullName',
   username: 'username',
   password: 'password',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  middleName: 'middleName',
   email: 'email',
   phoneNumber: 'phoneNumber',
-  roleId: 'roleId',
-  roleTypeId: 'roleTypeId',
+  address: 'address',
+  schoolId: 'schoolId',
+  externalId: 'externalId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TermScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AcademicCalendarScalarFieldEnum = {
+  id: 'id',
+  termId: 'termId',
+  sessionId: 'sessionId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -163,8 +204,12 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Role: 'Role',
-  RoleType: 'RoleType',
-  User: 'User'
+  RoleUser: 'RoleUser',
+  School: 'School',
+  User: 'User',
+  Term: 'Term',
+  Session: 'Session',
+  AcademicCalendar: 'AcademicCalendar'
 };
 
 /**

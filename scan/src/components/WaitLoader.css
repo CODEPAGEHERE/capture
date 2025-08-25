@@ -1,22 +1,26 @@
-/* Paste the CSS code here */
 .book,
 .book__pg-shadow,
 .book__pg {
-  animation: cover 5s ease-in-out infinite;
+  animation: cover 10s ease-in-out infinite; /* Slowed down the animation */
 }
 .book {
-  background-color: hsl(268, 90%, 65%);
+  background-color: hsl(210, 100%, 50%); /* Changed to blue */
   border-radius: 0.25em;
   box-shadow:
     0 0.25em 0.5em hsla(0, 0%, 0%, 0.3),
-    0 0 0 0.25em hsl(278, 100%, 57%) inset;
+    0 0 0 0.25em hsl(210, 100%, 60%) inset; /* Changed to blue */
   padding: 0.25em;
   perspective: 37.5em;
   position: relative;
-  width: 8em;
-  height: 6em;
+  width: 16em;
+  height: 12em;
   transform: translate3d(0, 0, 0);
   transform-style: preserve-3d;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .book__pg-shadow,
 .book__pg {
@@ -39,11 +43,11 @@
 }
 .book__pg {
   animation-name: pg1;
-  background-color: hsl(223, 10%, 100%);
+  background-color: hsl(0, 0%, 100%);
   background-image: linear-gradient(
     90deg,
-    hsla(223, 10%, 90%, 0) 87.5%,
-    hsl(223, 10%, 90%)
+    hsla(0, 0%, 90%, 0) 87.5%,
+    hsl(0, 0%, 90%)
   );
   height: calc(100% - 0.5em);
   transform-origin: 100% 50%;
@@ -52,10 +56,10 @@
 .book__pg--3,
 .book__pg--4 {
   background-image: repeating-linear-gradient(
-      hsl(223, 10%, 10%) 0 0.125em,
-      hsla(223, 10%, 10%, 0) 0.125em 0.5em
+      hsl(0, 0%, 10%) 0 0.125em,
+      hsla(0, 0%, 10%, 0) 0.125em 0.5em
     ),
-    linear-gradient(90deg, hsla(223, 10%, 90%, 0) 87.5%, hsl(223, 10%, 90%));
+    linear-gradient(90deg, hsla(0, 0%, 90%, 0) 87.5%, hsl(0, 0%, 90%));
   background-repeat: no-repeat;
   background-position: center;
   background-size:
@@ -75,14 +79,6 @@
   animation-name: pg5;
 }
 
-/* Dark theme */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: hsl(223, 10%, 30%);
-    --fg: hsl(223, 10%, 90%);
-  }
-}
-
 /* Animations */
 @keyframes cover {
   from,
@@ -92,14 +88,14 @@
   95%,
   to {
     animation-timing-function: ease-out;
-    background-color: hsl(278, 84%, 67%);
+    background-color: hsl(210, 100%, 50%);
   }
   10%,
   40%,
   60%,
   90% {
     animation-timing-function: ease-in;
-    background-color: hsl(271, 90%, 45%);
+    background-color: hsl(210, 100%, 40%);
   }
 }
 @keyframes shadow {
@@ -154,25 +150,25 @@
   from,
   to {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.4deg);
   }
   10%,
   15% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(180deg);
   }
   20%,
   80% {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(180deg);
   }
   85%,
   90% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(180deg);
   }
 }
@@ -180,37 +176,37 @@
   from,
   to {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(0.3deg);
   }
   5%,
   10% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.3deg);
   }
   20%,
   25% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.9deg);
   }
   30%,
   70% {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(179.9deg);
   }
   75%,
   80% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.9deg);
   }
   90%,
   95% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.3deg);
   }
 }
@@ -220,76 +216,91 @@
   90%,
   to {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(0.2deg);
   }
   15%,
   20% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.2deg);
   }
   30%,
   35% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.8deg);
   }
   40%,
   60% {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(179.8deg);
   }
   65%,
   70% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.8deg);
   }
   80%,
   85% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.2deg);
   }
 }
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
 @keyframes pg4 {
   from,
   20%,
   80%,
   to {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(0.1deg);
   }
   25%,
   30% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.1deg);
   }
   40%,
   45% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.7deg);
   }
   50% {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(179.7deg);
   }
   55%,
   60% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.7deg);
   }
   70%,
   75% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0.1deg);
   }
 }
@@ -299,24 +310,24 @@
   70%,
   to {
     animation-timing-function: ease-in;
-    background-color: hsl(223, 10%, 45%);
+    background-color: hsl(0, 0%, 45%);
     transform: translate3d(0, 0, 1px) rotateY(0);
   }
   35%,
   40% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0deg);
   }
   50% {
     animation-timing-function: ease-in-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(179.6deg);
   }
   60%,
   65% {
     animation-timing-function: ease-out;
-    background-color: hsl(223, 10%, 100%);
+    background-color: hsl(0, 0%, 100%);
     transform: translate3d(0, 0, 1px) rotateY(0);
   }
 }
